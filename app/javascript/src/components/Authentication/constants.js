@@ -13,7 +13,7 @@ export const LOGIN_FORM_VALIDATION_SCHEMA = yup.object({
     is: (value) => value === "signup",
     then: yup
       .string("Enter your password")
-      .min(8, "Password confiration should be of minimum 6 characters length")
+      .min(6, "Password confiration should be of minimum 6 characters length")
       .required("Password confiration is required"),
   }),
 });

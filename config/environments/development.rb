@@ -43,7 +43,7 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
-  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.perform_deliveries = true
 
@@ -66,6 +66,15 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+
+  config.action_mailer.smtp_settings = {
+    :authentication => :plain,
+    :address => "smtp.sendgrid.net",
+    :port => 587,
+    :domain => "shreyakurian99@gmail.com",
+    :user_name => "apikey",
+    :password => "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"
+  }
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
