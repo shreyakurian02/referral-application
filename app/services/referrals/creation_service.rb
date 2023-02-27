@@ -11,7 +11,7 @@ class Referrals::CreationService
   def process
     Referral.transaction do
       current_user.referrals.create!(referral_params)
-      ApplicationMailer.with(from_email: current_user.email,to_email: referral_params[:email] ).send_welcome_email.deliver
+      ReferrerMailer.with(to_email: referral_params[:email] ).send_welcome_email.deliver
     end
   end
 end
