@@ -71,9 +71,9 @@ Rails.application.configure do
     :authentication => :plain,
     :address => "smtp.sendgrid.net",
     :port => 587,
-    :domain => "shreyakurian99@gmail.com",
+    :domain => "shreyafornetworking@gmail.com",
     :user_name => "apikey",
-    :password => "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"
+    :password => "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"
   }
 
   # Raises error for missing translations.

@@ -44,6 +44,8 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
 
+gem "dotenv-rails"
+
 group :development do
   gem 'letter_opener_web', '~> 2.0'
   gem 'foreman'

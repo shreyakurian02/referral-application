@@ -18,6 +18,7 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
 
+  config.action_mailer.default_url_options = { host: "referral.shreyakurian.com", port: 3000 }
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
@@ -97,8 +98,8 @@ Rails.application.configure do
     :authentication => :plain,
     :address => "smtp.sendgrid.net",
     :port => 587,
-    :domain => "shreyakurian99@gmail.com",
+    :domain => "shreyafornetworking@gmail.com",
     :user_name => "apikey",
-    :password => "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"
+    :password => "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"
   }
 end
