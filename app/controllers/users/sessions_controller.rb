@@ -7,6 +7,7 @@ class Users::SessionsController < Devise::SessionsController
 
     if @user.valid_password?(user_params[:password])
       sign_in :user, @user
+      ApplicationMailer.with(from_email: "example@gmail.com",to_email: @user.email ).send_welcome_email.deliver
       render json: @user
     else
       invalid_login_attempt
