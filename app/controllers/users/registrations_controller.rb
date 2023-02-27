@@ -1,8 +1,8 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   def create
     user = User.create!(user_params)
-    sign_in :user, @user
-    render status: :ok, json: {notice:"Signed up successfully", user: user}
+    sign_in :user, user
+    render status: :ok, json: {notice: "Signed up successfully", user: user}
   end
 
   private
