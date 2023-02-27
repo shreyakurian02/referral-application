@@ -1,32 +1,45 @@
 import React, { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import axios from "axios";
+import { Typography, TextField, Button } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import {
+  LOGIN_FORM_VALIDATION_SCHEMA,
+  LOGIN_FORM_INITIAL_VALUES,
+} from "./constants";
+import { authentication } from "../../apis/authentication";
 
 const LoginForm = ({ user, authenticationOption, setAuthenticationOption }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-
   const navigate = useNavigate();
 
+  const formik = useFormik({
+    initialValues: { ...LOGIN_FORM_INITIAL_VALUES, authenticationOption },
+    validationSchema: LOGIN_FORM_VALIDATION_SCHEMA,
+    onSubmit: () => handleLogin(),
+  });
+
+  useEffect(() => {
+    formik.setFieldValue("authenticationOption", authenticationOption);
+  }, [authenticationOption]);
+
   const handleLogin = async () => {
-    const payload =
-      authenticationOption == "login"
-        ? { user: { email, password } }
-        : {
-            user: {
-              email,
-              password,
-              password_confirmation: passwordConfirmation,
-            },
-          };
+    const { email, password, passwordConfirmation } = formik.values;
+    const payload = {
+      user: {
+        email,
+        password,
+      },
+    };
     try {
       authenticationOption == "login"
-        ? await axios.post(`/users/sign_in`, payload)
-        : await axios.post(`/users`, payload);
+        ? await authentication.login(payload)
+        : await authentication.signUp({
+            user: {
+              ...payload.user,
+              password_confirmation: passwordConfirmation,
+            },
+          });
+      console.log(email);
       localStorage.setItem("user", email);
       window.location.href = "/";
     } catch (error) {
@@ -39,31 +52,50 @@ const LoginForm = ({ user, authenticationOption, setAuthenticationOption }) => {
   }, [user]);
 
   return (
-    <div className="flex h-screen justify-center items-center bg-red-800">
+    <div className="flex h-screen justify-center items-center">
       <div className="sm:max-w-md lg:w-1/2 xl:w-1/3 space-y-4">
         <Typography>LOGIN</Typography>
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+        <form onSubmit={formik.handleSubmit} className="space-y-6" noValidate>
           <div className="flex flex-col space-y-3">
             <TextField
               required
               label="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
             />
             <TextField
               required
               label="Password"
-              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
             {authenticationOption === "signup" && (
               <TextField
                 required
                 label="Password Confirmation"
-                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                name="passwordConfirmation"
+                value={formik.values.passwordConfirmation}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.passwordConfirmation &&
+                  Boolean(formik.errors.passwordConfirmation)
+                }
+                helperText={
+                  formik.touched.passwordConfirmation &&
+                  formik.errors.passwordConfirmation
+                }
               />
             )}
           </div>
           {authenticationOption === "signup" ? (
-            <Button variant="contained" onClick={handleLogin}>
+            <Button variant="contained" type="submit">
               Submit
             </Button>
           ) : (
@@ -72,7 +104,7 @@ const LoginForm = ({ user, authenticationOption, setAuthenticationOption }) => {
                 <Button variant="text">Forgot your Password?</Button>
               </div>
               <div className="flex space-x-2">
-                <Button variant="contained" onClick={handleLogin}>
+                <Button variant="contained" type="submit">
                   Login
                 </Button>
                 <Button
