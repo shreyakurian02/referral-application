@@ -16,11 +16,19 @@ export const MONTHS = [
 ];
 
 export const COLUMNS = [
-  { field: "email", headerName: "Email", width: 500 },
+  {
+    field: "email",
+    headerName: "Email",
+    flex: 0.5,
+    headerAlign: "center",
+    headerClassName: "super-app-theme--header",
+  },
   {
     field: "created_at",
     headerName: "Invited At",
-    width: 200,
+    flex: 0.5,
+    headerAlign: "center",
+    headerClassName: "super-app-theme--header",
     valueGetter: (params) => getFormattedDate(params.row.created_at),
   },
 ];

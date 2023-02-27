@@ -16,7 +16,6 @@ const NavigationBar = () => {
 
   const handleLogout = async () => {
     try {
-      // await axios.delete("/users/sign_out");
       await authentication.signOut();
       localStorage.clear();
       window.location.href = "/";

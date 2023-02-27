@@ -26,6 +26,7 @@ const ReferralModal = ({
       await referralsApi.create(payload);
       fetchReferrals();
       setShowReferModal(false);
+      formik.resetForm();
     } catch (error) {
       console.log(error);
     }

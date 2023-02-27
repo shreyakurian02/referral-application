@@ -45,8 +45,23 @@ const Dashboard = () => {
       >
         Refer Email
       </Button>
-      <Box height="calc(100vh - 130px)" sx={{ pt: 5, mx: "1%" }}>
-        <DataGrid rows={referrals} columns={COLUMNS} loading={isLoading} />
+      <Box
+        height="calc(100vh - 130px)"
+        sx={{
+          pt: 5,
+          mx: "1%",
+          "& .super-app-theme--header": {
+            backgroundColor: "rgb(178, 108, 189)",
+            color: "white",
+          },
+        }}
+      >
+        <DataGrid
+          disableColumnMenu
+          rows={referrals}
+          columns={COLUMNS}
+          loading={isLoading}
+        />
       </Box>
       <ReferralModal
         showReferModal={showReferModal}
